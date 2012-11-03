@@ -1,5 +1,9 @@
 # Excalit
 
+## License
+
+This software is under the Apache2 License. See the [LICENSE](https://github.com/marcelog/excalit/blob/master/LICENSE) file.
+
 ## About
 
 Stress testing tool for web servers, written in [elixir](http://elixir-lang.org/).
