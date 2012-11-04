@@ -27,6 +27,9 @@ defmodule Excalit do
   end
 
   def launch_clients(total, url, proto, method) do
+    if total == 0 do
+      raise 'concurrent_cant_be_0'
+    end
     url = URI.parse url
     me = Process.self
     Enum.each 1..total, fn(n) ->
@@ -99,22 +102,46 @@ defmodule Excalit do
     end
   end
 
+  def show_results(results) do
+    process_times "TCP connect time", :proplists.get_value(:time_con, results)
+    process_times "Recv data", :proplists.get_value(:time_recv, results)
+  end
+
   def process_times(description, times) do
     times_sorted = :lists.sort(fn({_,t1}, {_,t2}) ->
         t1 <= t2
       end,
       times
     )
-    total = length times_sorted
     {id1,best} = hd times_sorted
-    {id2,worst} = :lists.nth total, times_sorted
+    {id2,worst} = hd (:lists.reverse times_sorted)
     Lager.info '#{description} best: ~p: ~p us', [id1, best]
     Lager.info '#{description} worst: ~p: ~p us', [id2, worst]
+
+    total = length times_sorted
+    percnt_step = 10
+    increment = case trunc(total / percnt_step) do
+      0 -> 1
+      1 -> 1
+      x -> x - 1
+    end
+
+    # Print results in steps of percnt_step's.
+    Enum.each (:lists.seq 1, total, increment), fn(n) ->
+      print_sum_result description, times_sorted, n
+    end
+
+    # Print last result if left.
+    if (increment > 1 and rem(total, percnt_step) > 0) do
+      print_sum_result description, times_sorted, total
+    end
   end
 
-  def show_results(results) do
-    process_times "TCP connect time", :proplists.get_value(:time_con, results)
-    process_times "Recv data", :proplists.get_value(:time_recv, results)
+  def print_sum_result(description, times, n) do
+    total = length times
+    percent = round((n * 100)/total)
+    {_,value} = :lists.nth n, times
+    Lager.info '#{description} #{percent}% took: #{value} us'
   end
 
 end

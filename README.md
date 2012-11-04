@@ -17,18 +17,26 @@ Will launch *N* concurrent connections, make a request, and measure how much tim
 
     $ mix excalit --url http://localhost:8080/ --concurrent 2
 
-    20:27:19.039 [info] Launching: 2
-    20:27:19.074 [info] 2: open: 15326 us
-    20:27:19.075 [info] 1: open: 15923 us
-    20:27:19.076 [info] 2: send: 1999 us
-    20:27:19.077 [info] 1: send: 1478 us
-    20:27:19.077 [info] 2: total: 19291 us
-    20:27:19.077 [info] 2: recv: 200|323|785 us
-    20:27:19.077 [info] 1: total: 19444 us
-    20:27:19.077 [info] 2: Finished
-    20:27:19.078 [info] 1: recv: 200|323|874 us
-    20:27:19.078 [info] 1: Finished
-    20:27:19.078 [info] Total: 33620 us
+    12:19:27.696 [info] Launching: 2
+    12:19:27.732 [info] 2: open: 15680 us
+    12:19:27.732 [info] 1: open: 15796 us
+    12:19:27.734 [info] 2: send: 2079 us
+    12:19:27.734 [info] 1: send: 2043 us
+    12:19:27.734 [info] 2: total: 19402 us
+    12:19:27.734 [info] 2: recv: 200|323|420 us
+    12:19:27.734 [info] 2: Finished
+    12:19:27.735 [info] 1: total: 20227 us
+    12:19:27.735 [info] 1: recv: 200|323|1172 us
+    12:19:27.735 [info] 1: Finished
+    12:19:27.735 [info] TCP connect time best: 2: 15680 us
+    12:19:27.736 [info] TCP connect time worst: 1: 15796 us
+    12:19:27.736 [info] TCP connect time 50% took: 15680 us
+    12:19:27.736 [info] TCP connect time 100% took: 15796 us
+    12:19:27.736 [info] Recv data best: 2: 420 us
+    12:19:27.736 [info] Recv data worst: 1: 1172 us
+    12:19:27.736 [info] Recv data 50% took: 420 us
+    12:19:27.737 [info] Recv data 100% took: 1172 us
+    12:19:27.737 [info] Total: 34847 us
 
  * The operations are measured in microseconds.
  * The "open: xxx us" line indicates how much it took to establish the tcp connection.
