@@ -127,24 +127,24 @@ defmodule Excalit do
     percnt_step = 10
     increment = case trunc(total / percnt_step) do
       0 -> 1
-      1 -> 1
-      x -> x - 1
+      x -> x
     end
 
     # Print results in steps of percnt_step's.
-    Enum.each (:lists.seq 1, total, increment), fn(n) ->
+    indexes = :lists.seq 1, total, increment
+    Enum.each indexes, fn(n) ->
       print_sum_result description, times_sorted, n
     end
 
-    # Print last result if left.
-    if (increment > 1 and rem(total, percnt_step) > 0) do
+    # Print last result
+    if (hd(:lists.reverse(indexes)) < total) do
       print_sum_result description, times_sorted, total
     end
   end
 
   def print_sum_result(description, times, n) do
     total = length times
-    percent = round((n * 100)/total)
+    percent = trunc((n * 100)/total)
     {_,value} = :lists.nth n, times
     Lager.info '#{description} #{percent}% took: #{value} us'
   end
