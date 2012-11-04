@@ -103,6 +103,8 @@ defmodule Excalit do
   end
 
   def show_results(results) do
+    Lager.info 'Total Success: ~p', [:proplists.get_value(:success, results)]
+    Lager.info 'Total Error: ~p', [:proplists.get_value(:error, results)]
     process_times "TCP connect time", :proplists.get_value(:time_con, results)
     process_times "Recv data", :proplists.get_value(:time_recv, results)
   end
