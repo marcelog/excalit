@@ -24,7 +24,7 @@ defmodule Client do
       {data,time_recv} = Prof.time fn() ->
         Net.recv socket
       end
-      lines = String.split data, "\n"
+      lines = String.split String.strip(data, "\r"), "\n"
       status_line = hd lines
       [_,status_code|_] = String.split status_line, " "
       notify id, pid, {
@@ -53,7 +53,11 @@ defmodule Client do
       "connect" -> 'CONNECT'
       x -> throw 'invalid method: #{x}'
     end
-    '#{method} #{req.path} ' ++
+    '#{method} ' ++
+    case req.path do
+      nil -> '/ '
+      _ -> '#{req.path} '
+    end ++
     case req.proto do
       :http11 -> 'HTTP/1.1\r\nhost: #{req.host}\r\n'
       :http10 -> 'HTTP/1.0\r\n'

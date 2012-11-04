@@ -107,6 +107,9 @@ defmodule Excalit do
     process_times "Recv data", :proplists.get_value(:time_recv, results)
   end
 
+  def process_times(_description, []) do
+  end
+
   def process_times(description, times) do
     times_sorted = :lists.sort(fn({_,t1}, {_,t2}) ->
         t1 <= t2
