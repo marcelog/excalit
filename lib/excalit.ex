@@ -8,11 +8,9 @@ defmodule Excalit do
 
     # Get needed options
     opts = Options.validate System.argv, [:url]
-    concurrent = if (Options.undefined? :concurrent, opts) do
-      1
-    else
-      list_to_integer(binary_to_list Options.get :concurrent, opts)
-    end
+    concurrent = list_to_integer(binary_to_list(
+      Options.get :concurrent, opts, "1"
+    ))
     url = Options.get :url, opts
     proto = if Options.get :http11, opts do
       :http11
