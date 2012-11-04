@@ -1,8 +1,7 @@
 defmodule Options do
-  def validate_options(argv) do
+  def validate(argv, required) do
     {opts, _flags} = OptionParser.parse argv
-    required_opts = [:url, :concurrent]
-    Enum.each required_opts, fn(x) ->
+    Enum.each required, fn(x) ->
       if undefined? x, opts do
         raise "Need the --#{x} option"
       end

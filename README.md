@@ -49,8 +49,10 @@ Will launch *N* concurrent connections, make a request, and measure how much tim
 
  * GET method
  * HTTP 1.0
+ * 1 connection
 
 ## Options
 
  * `--http11`
  * `--method get|post|put|delete|head|options|connect`
+ * `--concurrent n`
