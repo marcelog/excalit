@@ -11,6 +11,10 @@ defmodule Net do
     :ok = :gen_tcp.send socket, what
   end
 
+  def close(socket) do
+    :gen_tcp.close socket
+  end
+
   def recv(socket) do
     {:ok, data} = :gen_tcp.recv socket, 0
     data
