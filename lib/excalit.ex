@@ -24,7 +24,7 @@ defmodule Excalit do
 
     # Go!
     Lager.info "Launching: #{concurrent}"
-    {_,time} = Prof.time fn() ->
+    {time,_} = :timer.tc fn() ->
       launch_clients concurrent, delay, url, proto, method
       show_results(wait_clients concurrent)
     end
@@ -39,7 +39,7 @@ defmodule Excalit do
     me = Process.self
     Enum.each 1..total, fn(n) ->
       spawn(fn() ->
-          {_,time} = Prof.time fn() ->
+          {time,_} = :timer.tc fn() ->
             req = Client.Request.new \
               host: url.host, port: url.port,
               path: url.path, proto: proto,

@@ -11,17 +11,17 @@ defmodule Client do
 
   def new(id, pid, req) do
     try do
-      {socket,time_con} = Prof.time fn() ->
+      {time_con,socket} = :timer.tc fn() ->
         Net.open req.host, req.port
       end
       notify id, pid, {:time_con, time_con}
 
-      {_,time_send} = Prof.time fn() ->
+      {time_send,_} = :timer.tc fn() ->
         Net.send socket, build_request req
       end
       notify id, pid, {:time_send, time_send}
 
-      {data,time_recv} = Prof.time fn() ->
+      {time_recv,data} = :timer.tc fn() ->
         Net.recv socket
       end
       lines = String.split String.strip(data, "\r"), "\n"
