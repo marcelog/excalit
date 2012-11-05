@@ -9,7 +9,7 @@ defmodule Excalit.Mixfile do
 
   # Configuration for the OTP application
   def application do
-    []
+    [applications: [:exlager]]
   end
 
   # Returns the list of dependencies in the format:

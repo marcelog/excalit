@@ -1,11 +1,14 @@
 defmodule Excalit do
+  use Application.Behaviour
+
   require Lager
   require Options
   require Net
 
-  def run() do
-    start_apps  
+  def start(_, _) do
+  end
 
+  def run() do
     # Get needed options
     opts = Options.validate System.argv, [:url]
     concurrent = list_to_integer(binary_to_list(
@@ -104,12 +107,6 @@ defmodule Excalit do
         {total, :lists.keystore(:time_recv, 1, acc, {:time_recv, times})}
     end
     wait_clients left, result
-  end
-
-  def start_apps() do
-    Enum.each [:compiler, :syntax_tools, :lager, :exlager], fn(x) ->
-      :application.start x
-    end
   end
 
   def show_results(results) do
