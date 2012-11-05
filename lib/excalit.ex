@@ -11,6 +11,9 @@ defmodule Excalit do
     concurrent = list_to_integer(binary_to_list(
       Options.get :concurrent, opts, "1"
     ))
+    delay = list_to_integer(binary_to_list(
+      Options.get :delay, opts, "0"
+    ))
     url = Options.get :url, opts
     proto = if Options.get :http11, opts do
       :http11
@@ -22,13 +25,13 @@ defmodule Excalit do
     # Go!
     Lager.info "Launching: #{concurrent}"
     {_,time} = Prof.time fn() ->
-      launch_clients concurrent, url, proto, method
+      launch_clients concurrent, delay, url, proto, method
       show_results(wait_clients concurrent)
     end
     Lager.info "Total: ~p us", [time]
   end
 
-  def launch_clients(total, url, proto, method) do
+  def launch_clients(total, delay, url, proto, method) do
     if total == 0 do
       raise 'concurrent_cant_be_0'
     end
@@ -45,6 +48,11 @@ defmodule Excalit do
           end
           Lager.info '#{n}: total: ~p us', [time]
         end)
+      receive do
+        :foo -> :ok
+      after delay ->
+        :ok
+      end
     end
   end
 

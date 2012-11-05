@@ -47,12 +47,14 @@ Will launch *N* concurrent connections, make a request, and measure how much tim
 
 ## Defaults
 
- * GET method
- * HTTP 1.0
- * 1 connection
+ * GET method.
+ * HTTP 1.0.
+ * 1 connection.
+ * 0 milliseconds of delay when spawning childs.
 
 ## Options
 
- * `--http11`
- * `--method get|post|put|delete|head|options|connect`
- * `--concurrent n`
+ * `--http11`: HTTP version.
+ * `--method get|post|put|delete|head|options|connect`: HTTP method to use.
+ * `--concurrent n`: Number of concurrent connections.
+ * `--delay n`: Delay in milliseconds between each child spawn.
